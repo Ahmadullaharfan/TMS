@@ -141,3 +141,231 @@
         @apply bg-background text-foreground;
     }
 }
+
+.teachers-header {
+    height: fit-content;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: var(--card);
+    box-shadow: 0 6px 20px -16px rgba(15, 23, 42, 0.45);
+}
+
+.teachers-header-content {
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+    min-width: 240px;
+}
+
+.teachers-header-title {
+    font-size: 1.125rem;
+    line-height: 1.6rem;
+    font-weight: 700;
+    color: var(--card-foreground);
+}
+
+.teachers-header-subtitle {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}
+
+.header-actions-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content:space-between;
+    gap: 0.5rem;
+    float: left;
+}
+
+.teachers-search {
+    width: 100%;
+    max-width: 260px;
+}
+
+
+
+.btn-primary { 
+    align-items: center;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    height: 32px;
+    justify-content: center;
+    width: fit-content;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #171717;
+}
+
+.btn-primary:hover {
+    background-color: #111111;
+}
+
+.btn-primary:disabled {
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .teachers-header {
+        align-items: stretch;
+    }
+
+    .header-actions-container {
+        float: left;
+    }
+
+    .teachers-search {
+        max-width: none;
+    }
+}
+
+.icon-btn {
+    position: relative;
+    padding: 8px;
+}
+
+.icon-wrapper {
+    position: relative;
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tooltip BELOW the button */
+.tooltip-text {
+    position: absolute;
+    top: calc(100% + 10px);   /* place below button */
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px) scale(0.95);
+    background: #1f1f1f;
+    color: #fff;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 50;
+
+    transition: all 0.18s ease;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+}
+
+/* Arrow on TOP of tooltip */
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #1f1f1f transparent;
+}
+
+/* Show animation */
+.icon-btn:hover .tooltip-text {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1);
+}
+
+
+.page-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: fit-content;
+    justify-content: flex-start;
+    position: static;
+    max-width: 600px;
+    padding-top: 48px;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+}
+
+.form-title {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 700;
+    color: var(--card-foreground);
+}
+
+.form-subtitle {
+    font-size: 0.875rem;
+    color: var(--muted-foreground);
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    gap: 12px;
+    width: 600px;
+    background-color: var(--card);
+}
+
+.column-2 {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.input-box {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 200px;
+    min-width: 200px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.input-box label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--card-foreground);
+}
+
+.input-box input {
+    width: 100%;
+}
+
+input {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: .02em;
+    margin-top: 10px;
+    background-color:  #f2f2f2;
+    color: #383838;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: none;
+}
+
+input:not(:placeholder-shown) {
+    background-color: #e8f0fe;
+    border: none;
+}
+
+input:focus {
+    border: none;
+    outline: none;
+}
+input:not(:placeholder-shown):focus {
+    border: none;
+    outline: none;
+}

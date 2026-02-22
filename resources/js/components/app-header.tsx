@@ -1,5 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
+import { BookOpen, Folder,GraduationCap,  LayoutGrid, Users } from 'lucide-react';
+
+import { Menu, Search } from 'lucide-react';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -41,25 +43,46 @@ type Props = {
 };
 
 const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
+     {
+        title: 'اصلي صفحه ',
         href: dashboard(),
         icon: LayoutGrid,
     },
-];
-
-const rightNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
+     {
+        title: 'د صنفونو تنظیم',
+        href: dashboard(),
         icon: BookOpen,
     },
+
+    {
+        title: 'داستادانو تنظیم',
+        href: dashboard(),
+        icon: GraduationCap,
+    },
+   {
+        title: 'دشاګردانو تنظیم',
+        href: dashboard(),
+        icon: Users,
+    },
+      {
+        title: 'دراپورونو تنظیم',
+        href: dashboard(),
+        icon: Folder,
+    },
 ];
+
+// const rightNavItems: NavItem[] = [
+//     {
+//         title: 'Repository',
+//         href: 'https://github.com/laravel/react-starter-kit',
+//         icon: Folder,
+//     },
+//     {
+//         title: 'Documentation',
+//         href: 'https://laravel.com/docs/starter-kits#react',
+//         icon: BookOpen,
+//     },
+// ];
 
 const activeItemStyles =
     'text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100';
@@ -112,7 +135,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                             ))}
                                         </div>
 
-                                        <div className="flex flex-col space-y-4">
+                                        {/* <div className="flex flex-col space-y-4">
                                             {rightNavItems.map((item) => (
                                                 <a
                                                     key={item.title}
@@ -127,7 +150,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                                     <span>{item.title}</span>
                                                 </a>
                                             ))}
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </SheetContent>
@@ -185,7 +208,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                             >
                                 <Search className="!size-5 opacity-80 group-hover:opacity-100" />
                             </Button>
-                            <div className="ml-1 hidden gap-1 lg:flex">
+                            {/* <div className="ml-1 hidden gap-1 lg:flex">
                                 {rightNavItems.map((item) => (
                                     <TooltipProvider
                                         key={item.title}
@@ -213,7 +236,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                         </Tooltip>
                                     </TooltipProvider>
                                 ))}
-                            </div>
+                            </div> */}
                         </div>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>

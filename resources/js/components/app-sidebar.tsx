@@ -1,6 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
-import { NavFooter } from '@/components/nav-footer';
+import { BookOpen, Folder, GraduationCap, LayoutGrid, Users } from 'lucide-react';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -15,31 +14,39 @@ import {
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
 import { dashboard } from '@/routes';
+import teachers from '@/routes/teachers';
 
 const mainNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: 'اصلي صفحه',
         href: dashboard(),
         icon: LayoutGrid,
     },
-];
-
-const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
+        title: 'د صنفونو تنظیمات',
+        href: dashboard(),
+        icon: BookOpen,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
+        title: 'د استادانو تنظیمات',
+        href: teachers.index(),
+        icon: GraduationCap,
+    },
+    {
+        title: 'د شاگردانو تنظیمات',
+        href: dashboard(),
+        icon: Users,
+    },
+    {
+        title: 'د راپورونو تنظیمات',
+        href: dashboard(),
+        icon: Folder,
     },
 ];
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        <Sidebar side="right" collapsible="icon" variant="inset">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
@@ -57,7 +64,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
