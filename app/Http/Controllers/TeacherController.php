@@ -31,7 +31,15 @@ class TeacherController extends Controller
      */
     public function store(StoreTeacherRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->hasFile('profile_photo')) {
+            $data['profile_photo'] = $request->file('profile_photo')->store('teacher_photos', 'public');
+        }
+
+        Teacher::create($data);
+
+        return redirect()->route('teachers.index')->with('success', 'Teacher created successfully.');
     }
 
     /**

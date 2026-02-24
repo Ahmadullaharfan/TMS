@@ -11,27 +11,28 @@ return new class extends Migration
      */
  public function up()
 {
-    Schema::create('courses', function (Blueprint $table) {
+    Schema::create('enrollments', function (Blueprint $table) {
         $table->id();
 
-        $table->string('title');
-        $table->text('description')->nullable();
-
-        $table->foreignId('teacher_id')
-              ->constrained('teachers')
+        $table->foreignId('student_id')
+              ->constrained('students')
               ->onDelete('cascade');
 
-        $table->date('start_date')->nullable();
-        $table->date('end_date')->nullable();
+        $table->foreignId('course_id')
+              ->constrained('courses')
+              ->onDelete('cascade');
 
         $table->timestamps();
+
+        $table->unique(['student_id', 'course_id']); 
     });
 }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('enrollments');
     }
 };
