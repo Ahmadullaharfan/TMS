@@ -11,7 +11,7 @@ class UpdateStudentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,16 @@ class UpdateStudentRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+       return [
+        'first_name'        => 'required|string|max:255',
+        'last_name'         => 'required|string|max:255',
+        'father_name'       => 'required|string|max:255',
+        'grandfather_name'  => 'nullable|string|max:255',
+        'email'             => 'required|email|unique:students,email,'.$this->route('student')->id,
+        'phone'             => 'nullable|string|max:20',
+        'date_of_birth'     => 'nullable|date',
+        'gender'            => 'nullable|in:male,female',
+        'profile_photo'     => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ];
     }
 }

@@ -30,6 +30,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { FaSearch } from "react-icons/fa";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -67,14 +68,17 @@ export function DataTable<TData, TValue>({
   return (
     <div>
         <div className="w-full py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <Input
-                    placeholder="لټون د ایمل په واسطه ..."
-                    value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-                    onChange={(event) =>
-                    table.getColumn("email")?.setFilterValue(event.target.value)
-                    }
-                    className="email-filter"
-                />
+                <div className="relative w-full max-w-[500px]">
+                    <FaSearch className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                        placeholder="لټون د ایمل په واسطه ..."
+                        value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+                        onChange={(event) =>
+                        table.getColumn("email")?.setFilterValue(event.target.value)
+                        }
+                        className="email-filter pl-9"
+                    />
+                </div>
                 <div className="column-visibility-dropdown">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>

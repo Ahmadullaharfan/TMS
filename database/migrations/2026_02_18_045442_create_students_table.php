@@ -15,10 +15,14 @@ public function up()
         $table->id();
         $table->string('first_name');
         $table->string('last_name');
+        $table->string('father_name');
+        $table->string('grandfather_name')->nullable();
         $table->string('email')->unique();
         $table->string('phone')->nullable();
         $table->date('date_of_birth')->nullable();
         $table->string('gender')->nullable();
+        $table->string('profile_photo')->nullable();
+
         $table->timestamps();
     });
 }

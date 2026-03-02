@@ -23,7 +23,7 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        return inertia('teachers/creat_teacher');
+        return inertia('teachers/create_teacher');
     }
 
     /**

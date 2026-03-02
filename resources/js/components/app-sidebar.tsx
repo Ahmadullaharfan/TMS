@@ -15,6 +15,7 @@ import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
 import { dashboard } from '@/routes';
 import teachers from '@/routes/teachers';
+import students from '@/routes/students';
 
 const mainNavItems: NavItem[] = [
     {
@@ -34,7 +35,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'د شاگردانو تنظیمات',
-        href: dashboard(),
+        href: students.index(),
         icon: Users,
     },
     {
