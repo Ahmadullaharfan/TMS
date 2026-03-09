@@ -29,6 +29,7 @@ class StoreTeacherRequest extends FormRequest
         'grandfather_name'  => 'nullable|string|max:255',
         'email'             => 'required|email|unique:teachers,email',
         'phone'             => 'nullable|string|max:20',
+        'salary'            => 'nullable|numeric|min:0',
         'date_of_birth'     => 'nullable|date',
         'gender'            => 'nullable|in:male,female',
         'specialization'    => 'nullable|string|max:255',

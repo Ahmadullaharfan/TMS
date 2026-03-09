@@ -1,13 +1,13 @@
-﻿import { Head, router } from '@inertiajs/react';
-import AppLayout from '@/layouts/app-layout';
-import type { BreadcrumbItem } from '@/types';
+﻿import { zodResolver } from '@hookform/resolvers/zod';
+import { Head, router } from '@inertiajs/react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import AppLayout from '@/layouts/app-layout';
 import teachers from '@/routes/teachers';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -45,6 +45,11 @@ const schema = z.object({
         .string()
         .trim()
         .min(1, 'دتلیفون شمیره ولیکي'),
+
+    salary: z.coerce
+        .number({ invalid_type_error: 'معاش باید یو عدد وي' })
+        .min(0, 'معاش منفی نشي کیدی'),
+
     date_of_birth: z
         .string()
         .trim()
@@ -74,6 +79,7 @@ export default function CreateTeacher() {
             grandfather_name: '',
             email: '',
             phone: '',
+            salary: 0,
             date_of_birth: '',
             gender: 'male',
             specialization: '',
@@ -158,6 +164,16 @@ export default function CreateTeacher() {
                                     <Input placeholder="دټلیفون نمبر ولیکي" {...register('phone')} />
                                     {errors.phone && (
                                         <span className="error-message">{errors.phone.message}</span>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className="column-2">
+                                <div className="input-box">
+                                    <Label>معاش</Label>
+                                    <Input type="number" min="0" step="0.01" placeholder="معاش ولیکي" {...register('salary')} />
+                                    {errors.salary && (
+                                        <span className="error-message">{errors.salary.message}</span>
                                     )}
                                 </div>
                             </div>

@@ -12,17 +12,25 @@ class Course extends Model
         'title',
         'description',
         'teacher_id',
+        'course_fee',
         'start_date',
         'end_date',
     ];
 
-    public function teacher()
-    {
-        return $this->belongsTo(Teacher::class);
-    }
+    protected $casts = [
+        'course_fee' => 'float',
+    ];
 
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);
+    }
+    
+    public function students(){
+        return $this->belongsToMany(Student::class, 'enrollments');
+    }
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
     }
 }

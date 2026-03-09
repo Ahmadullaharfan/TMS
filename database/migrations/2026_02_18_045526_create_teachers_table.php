@@ -27,6 +27,8 @@ public function up()
 
         $table->string('specialization')->nullable();
 
+        $table->decimal('salary', 10, 2)->nullable();
+
         $table->string('profile_photo')->nullable();
 
         $table->timestamps();

@@ -19,6 +19,12 @@ class Student extends Model
             'gender',
             'profile_photo',
         ];
+    public function courses()
+ {          
+
+    return $this->belongsToMany(Course::class, 'enrollments');
+
+ }
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);

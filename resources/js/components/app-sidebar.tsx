@@ -11,11 +11,13 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { dashboard } from '@/routes';
+import courses from '@/routes/courses';
+import students from '@/routes/students';
+import teachers from '@/routes/teachers';
+import enrollments from '@/routes/enrollments';
 import type { NavItem } from '@/types';
 import AppLogo from './app-logo';
-import { dashboard } from '@/routes';
-import teachers from '@/routes/teachers';
-import students from '@/routes/students';
 
 const mainNavItems: NavItem[] = [
     {
@@ -25,7 +27,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'د صنفونو تنظیمات',
-        href: dashboard(),
+        href: courses.index().url,
         icon: BookOpen,
     },
     {
@@ -34,10 +36,17 @@ const mainNavItems: NavItem[] = [
         icon: GraduationCap,
     },
     {
-        title: 'د شاگردانو تنظیمات',
+        title: 'د شاګردانو تنظیمات',
         href: students.index(),
         icon: Users,
     },
+
+    {
+        title: 'دشاګردانو داخله',
+        href: enrollments.index(),
+        icon: Users,
+    },
+
     {
         title: 'د راپورونو تنظیمات',
         href: dashboard(),

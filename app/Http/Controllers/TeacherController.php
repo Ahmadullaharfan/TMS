@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
 use App\Models\Teacher;
+use Illuminate\Support\Facades\Storage;
 
 class TeacherController extends Controller
 {
@@ -47,7 +48,11 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        //
+        $teacher = Teacher::findOrFail($teacher->id);
+
+        return inertia('teachers/show_teacher', [
+            'teacher' => $teacher,
+        ]);
     }
 
     /**
@@ -55,7 +60,9 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        //
+        return inertia('teachers/updat_teacher', [
+            'teacher' => $teacher,
+        ]);
     }
 
     /**
@@ -63,7 +70,19 @@ class TeacherController extends Controller
      */
     public function update(UpdateTeacherRequest $request, Teacher $teacher)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->hasFile('profile_photo')) {
+            if ($teacher->profile_photo && Storage::disk('public')->exists($teacher->profile_photo)) {
+                Storage::disk('public')->delete($teacher->profile_photo);
+            }
+
+            $data['profile_photo'] = $request->file('profile_photo')->store('teacher_photos', 'public');
+        }
+
+        $teacher->update($data);
+
+        return redirect()->route('teachers.index')->with('success', 'Teacher updated successfully.');
     }
 
     /**
@@ -71,6 +90,12 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        if ($teacher->profile_photo && Storage::disk('public')->exists($teacher->profile_photo)) {
+            Storage::disk('public')->delete($teacher->profile_photo);
+        }
+
+        $teacher->delete();
+
+        return redirect()->route('teachers.index')->with('success', 'Teacher deleted successfully.');
     }
 }

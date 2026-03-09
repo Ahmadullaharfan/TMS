@@ -142,11 +142,11 @@
     }
 }
 
-.teacher-carde {
-    max-width: 400px;
-    min-height: 200px;
-    max-height: fit-content;
-
+.teacher-card {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 280px;
+    height: 50%;
 }
 
 .teachers-header {
@@ -341,10 +341,11 @@
     flex: 1 1 200px;
     min-width: 200px;
     margin-top: 10px;
+    justify-content: center;
 }
 
 .input-box label {
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-weight: 600;
     color: var(--card-foreground);
 }
@@ -357,7 +358,6 @@ input {
     font-size: 0.875rem;
     font-weight: 500;
     letter-spacing: .02em;
-    margin-top: 10px;
     background-color: #f2f2f2;
     color: #383838;
     padding: 6px 8px;

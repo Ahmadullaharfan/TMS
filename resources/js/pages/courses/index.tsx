@@ -14,52 +14,58 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
-import teachers from '@/routes/teachers';
+import courses from '@/routes/courses';
 import type { BreadcrumbItem } from '@/types';
 
-const pageTitle = 'د استادانو تنظیمات';
+const pageTitle = 'د کورسونو تنظیمات';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: pageTitle,
-        href: teachers.index().url,
+        href: courses.index().url,
     },
 ];
 
-type Teacher = {
+type Course = {
     id: number;
-    first_name: string;
-    last_name: string;
-    email: string;
-    salary: number | null;
+    title: string;
+    description: string | null;
+    course_fee: number;
+    start_date: string | null;
+    end_date: string | null;
+    teacher?: {
+        id: number;
+        first_name: string;
+        last_name: string;
+    } | null;
 };
 
 type PageProps = {
-    teachers?: Teacher[];
+    courses?: Course[];
 };
 
-export default function TeachersIndex() {
+export default function CoursesIndex() {
     const { props } = usePage<PageProps>();
-    const data = props.teachers ?? [];
-    const [deletingTeacherId, setDeletingTeacherId] = useState<number | null>(null);
+    const data = props.courses ?? [];
+    const [deletingCourseId, setDeletingCourseId] = useState<number | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-    const handleDeleteTeacher = (teacher: Teacher) => {
-        const confirmed = window.confirm(`ایا د "${teacher.first_name} ${teacher.last_name}" ریکارډ حذف شي؟`);
+    const handleDeleteCourse = (course: Course) => {
+        const confirmed = window.confirm(`ایا د "${course.title}" کورس حذف شي؟`);
         if (!confirmed) {
             return;
         }
 
-        setDeletingTeacherId(teacher.id);
+        setDeletingCourseId(course.id);
 
-        router.delete(teachers.destroy(teacher.id).url, {
+        router.delete(courses.destroy(course.id).url, {
             preserveScroll: true,
             onSuccess: () => {
-                setSuccessMessage('استاد په بریالیتوب سره حذف شو.');
+                setSuccessMessage('کورس په بریالیتوب سره حذف شو.');
                 window.setTimeout(() => setSuccessMessage(null), 3000);
             },
             onFinish: () => {
-                setDeletingTeacherId(null);
+                setDeletingCourseId(null);
             },
         });
     };
@@ -70,45 +76,45 @@ export default function TeachersIndex() {
             header: 'آیډي',
         },
         {
-            accessorKey: 'first_name',
-            header: 'نوم',
+            accessorKey: 'title',
+            header: 'عنوان',
         },
         {
-            accessorKey: 'last_name',
-            header: 'تخلص',
+            id: 'teacher_name',
+            header: 'استاد',
+            cell: ({ row }: { row: { original: Course } }) => {
+                const teacher = row.original.teacher;
+                return teacher ? `${teacher.first_name} ${teacher.last_name}` : '-';
+            },
         },
         {
-            accessorKey: 'email',
-            header: 'ایمیل',
+            accessorKey: 'course_fee',
+            header: 'فیس',
         },
         {
-            accessorKey: 'salary',
-            header: 'معاش',
+            accessorKey: 'start_date',
+            header: 'پیل نیټه',
+        },
+        {
+            accessorKey: 'end_date',
+            header: 'پای نیټه',
         },
         {
             id: 'actions',
             header: 'عمل',
-            cell: ({ row }: { row: { original: Teacher } }) => (
+            cell: ({ row }: { row: { original: Course } }) => (
                 <div className="flex gap-2 text-right">
-                    <Button
-                        variant="secondary"
-                        size="sm"
-                        onClick={() => router.visit(teachers.show(row.original.id).url)}
-                    >
+                    <Button variant="secondary" size="sm" onClick={() => router.visit(courses.show(row.original.id).url)}>
                         <FaRegEye className="h-4 w-4" />
                     </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => router.visit(teachers.edit(row.original.id).url)}
-                    >
+                    <Button variant="outline" size="sm" onClick={() => router.visit(courses.edit(row.original.id).url)}>
                         <CiEdit className="h-4 w-4" />
                     </Button>
                     <Button
                         variant="destructive"
                         size="sm"
-                        onClick={() => handleDeleteTeacher(row.original)}
-                        disabled={deletingTeacherId === row.original.id}
+                        onClick={() => handleDeleteCourse(row.original)}
+                        disabled={deletingCourseId === row.original.id}
                     >
                         <LuDelete className="h-4 w-4" />
                     </Button>
@@ -124,7 +130,7 @@ export default function TeachersIndex() {
                 <Card className="teacher-carde">
                     <CardHeader>
                         <CardTitle>ضروري صفحي</CardTitle>
-                        <CardDescription>دلته مهمي صفحي په اساني سره ومومي</CardDescription>
+                        <CardDescription>دلته د کورس اړوند مهمي صفحي په اساني سره ومومي</CardDescription>
                         <CardAction>عمومي</CardAction>
                     </CardHeader>
                 </Card>
@@ -132,21 +138,14 @@ export default function TeachersIndex() {
                 <section className="teachers-header">
                     <div className="teachers-header-content">
                         <h1 className="teachers-header-title">{pageTitle}</h1>
-                        <p className="teachers-header-subtitle">
-                            د استادانو معلومات په اساني سره ذخیره کړي
-                        </p>
+                        <p className="teachers-header-subtitle">د کورسونو معلومات په اساني سره ذخیره کړي</p>
                     </div>
 
                     <div className="header-actions-container">
-                        <Button
-                            className="icon-btn"
-                            onClick={() => {
-                                window.location.href = teachers.create().url;
-                            }}
-                        >
+                        <Button className="icon-btn" onClick={() => router.visit(courses.create().url)}>
                             <div className="icon-wrapper">
                                 <Plus className="h-4 w-4" />
-                                <span className="tooltip-text">د استاد اضافه کول</span>
+                                <span className="tooltip-text">د کورس اضافه کول</span>
                             </div>
                         </Button>
                     </div>

@@ -16,6 +16,9 @@ return new class extends Migration
 
         $table->string('title');
         $table->text('description')->nullable();
+        
+        $table->decimal('course_fee', 10, 2)->default(0)->after('teacher_id');
+
 
         $table->foreignId('teacher_id')
               ->constrained('teachers')
@@ -27,6 +30,7 @@ return new class extends Migration
         $table->timestamps();
     });
 }
+
     /**
      * Reverse the migrations.
      */

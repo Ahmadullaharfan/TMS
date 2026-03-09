@@ -9,18 +9,23 @@ class Teacher extends Model
 {
     use HasFactory;
 
-  protected $fillable = [
-    'first_name',
-    'last_name',
-    'father_name',
-    'grandfather_name',
-    'email',
-    'phone',
-    'date_of_birth',
-    'gender',
-    'specialization',
-    'profile_photo',
-];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'father_name',
+        'grandfather_name',
+        'email',
+        'phone',
+        'salary',
+        'date_of_birth',
+        'gender',
+        'specialization',
+        'profile_photo',
+    ];
+
+    protected $casts = [
+        'salary' => 'float',
+    ];
 
     public function courses()
     {

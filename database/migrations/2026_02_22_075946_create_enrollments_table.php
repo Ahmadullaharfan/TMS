@@ -22,12 +22,17 @@ return new class extends Migration
               ->constrained('courses')
               ->onDelete('cascade');
 
+        $table->date('enrollment_date')->nullable();
+
+        $table->enum('status', ['active', 'completed', 'dropped'])
+              ->default('active');
+
         $table->timestamps();
 
-        $table->unique(['student_id', 'course_id']); 
+        // Prevent duplicate enrollment
+        $table->unique(['student_id', 'course_id']);
     });
 }
-
     /**
      * Reverse the migrations.
      */
