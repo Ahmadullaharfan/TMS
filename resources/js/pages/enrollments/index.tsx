@@ -1,10 +1,14 @@
 import { Head, router, usePage } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
+import { useState } from 'react';
 import { DataTable } from '@/components/data-table';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import enrollments from '@/routes/enrollments';
 import type { BreadcrumbItem } from '@/types';
+import { FaRegEye } from 'react-icons/fa';
+import { CiEdit } from 'react-icons/ci';
+import { LuDelete } from 'react-icons/lu';
 
 const pageTitle = 'د شاګردانو داخله';
 
@@ -39,6 +43,28 @@ type PageProps = {
 export default function EnrollmentIndex() {
     const { props } = usePage<PageProps>();
     const data = props.enrollments ?? [];
+    const [deletingEnrollmentId, setDeletingEnrollmentId] = useState<number | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+    const handleDeleteEnrollment = (enrollment: Enrollment) => {
+        const confirmed = window.confirm('ایا ډاډه  یاست چي داریکارډ حذب کړي؟');
+        if (!confirmed) {
+            return;
+        }
+
+        setDeletingEnrollmentId(enrollment.id);
+
+        router.delete(enrollments.destroy(enrollment.id).url, {
+            preserveScroll: true,
+            onSuccess: () => {
+                setSuccessMessage('ریکارډ په کامیابي سره حذب شو');
+                window.setTimeout(() => setSuccessMessage(null), 3000);
+            },
+            onFinish: () => {
+                setDeletingEnrollmentId(null);
+            },
+        });
+    };
 
     const columns = [
         {
@@ -73,6 +99,29 @@ export default function EnrollmentIndex() {
         {
             accessorKey: 'fee_status',
             header: 'د فیس حالت',
+        },  
+        
+        {
+            id: 'actions',
+            header: 'عمل',
+            cell: ({ row }: { row: { original: Enrollment } }) => (
+                <div className="flex gap-2 text-right">
+                    <Button variant="secondary" size="sm" onClick={() => router.visit(enrollments.show(row.original.id).url)}>
+                        <FaRegEye className="h-4 w-4" />
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => router.visit(enrollments.edit(row.original.id).url)}>
+                        <CiEdit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleDeleteEnrollment(row.original)}
+                        disabled={deletingEnrollmentId === row.original.id}
+                    >
+                        <LuDelete className="h-4 w-4" />
+                    </Button>
+                </div>
+            ),
         },
     ];
 
@@ -98,6 +147,11 @@ export default function EnrollmentIndex() {
 
                 <DataTable columns={columns} data={data} />
             </div>
+            {successMessage && (
+                <div className="fixed bottom-4 right-4 z-50 rounded-md bg-emerald-600 px-4 py-3 text-sm font-medium text-white shadow-lg">
+                    {successMessage}
+                </div>
+            )}
         </AppLayout>
     );
 }

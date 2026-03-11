@@ -84,7 +84,11 @@ class EnrollmentController extends Controller
      */
     public function edit(Enrollment $enrollment)
     {
-        //
+        return inertia('enrollments/update_enrollment', [
+            'enrollment' => $enrollment->load('student', 'course', 'payments'),
+            'students' => Student::select('id', 'first_name', 'last_name')->orderBy('first_name')->get(),
+            'courses' => Course::select('id', 'title', 'course_fee')->orderBy('title')->get(),
+        ]);
     }
 
     /**
@@ -100,6 +104,12 @@ class EnrollmentController extends Controller
      */
     public function destroy(Enrollment $enrollment)
     {
-        //
+        DB::transaction(function () use ($enrollment): void {
+            $enrollment->payments()->delete();
+            $enrollment->delete();
+        });
+        return redirect()
+            ->route('enrollments.index')
+            ->with('success', 'Enrollment deleted successfully.');
     }
 }

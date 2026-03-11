@@ -1,7 +1,7 @@
 // resources/js/pages/enrollments/add_enrollment.tsx
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Head, router, usePage } from '@inertiajs/react';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -17,7 +17,7 @@ import type { BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'شموليت اضافه کول',
+        title: 'شموليت سمول',
         href: enrollments.index().url,
     },
 ];
@@ -51,12 +51,26 @@ type CourseOption = {
 };
 
 type PageProps = {
+    enrollment: {
+        id: number;
+        student_id: number;
+        course_id: number;
+        enrollment_date: string | null;
+        status: 'active' | 'completed' | 'dropped';
+        payments?: Array<{
+            amount: number;
+            paid_at: string | null;
+            receipt_no: string | null;
+            note: string | null;
+        }> | null;
+    };
     students: StudentOption[];
     courses: CourseOption[];
 };
 
-export default function AddEnrollment() {
-    const { students, courses } = usePage<PageProps>().props;
+export default function UpdateEnrollment() {
+    const { enrollment, students, courses } = usePage<PageProps>().props;
+    const latestPayment = enrollment.payments?.[0] ?? null;
 
     // Transform options for searchable select
     const studentOptions = useMemo(
@@ -89,14 +103,14 @@ export default function AddEnrollment() {
     } = useForm<FormData>({
         resolver: zodResolver(schema),
         defaultValues: {
-            student_id: 0,
-            course_id: 0,
-            enrollment_date: '',
-            status: 'active',
-            payment_amount: undefined,
-            payment_date: '',
-            receipt_no: '',
-            payment_note: '',
+            student_id: enrollment.student_id ?? 0,
+            course_id: enrollment.course_id ?? 0,
+            enrollment_date: enrollment.enrollment_date ?? '',
+            status: enrollment.status ?? 'active',
+            payment_amount: latestPayment?.amount ?? undefined,
+            payment_date: latestPayment?.paid_at ?? '',
+            receipt_no: latestPayment?.receipt_no ?? '',
+            payment_note: latestPayment?.note ?? '',
         },
     });
 
@@ -104,7 +118,7 @@ export default function AddEnrollment() {
     const selectedCourse = courses.find((course) => course.id === selectedCourseId);
 
     const onSubmit = (values: FormData) => {
-        router.post(enrollments.store().url, values, {
+        router.put(enrollments.update(enrollment.id).url, values, {
             onError: (serverErrors) => {
                 Object.entries(serverErrors).forEach(([field, message]) => {
                     setError(field as keyof FormData, {
@@ -128,12 +142,12 @@ export default function AddEnrollment() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="شموليت اضافه کول" />
+            <Head title="شموليت سمول" />
             <div className="flex h-full flex-1 flex-col items-center gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="page-container max-w-3xl">
-                    <h1 className="form-title text-2xl font-bold">شموليت اضافه کول</h1>
+                    <h1 className="form-title text-2xl font-bold">شموليت سمول</h1>
                     <p className="form-subtitle mb-6 text-muted-foreground">
-                        د شمولیت اړوند معلومات اضافه کړي او وروسته د فیس اړوند معلومات اضافه کړي
+                        د شمولیت اړوند معلومات سم کړئ او که اړتیا وي د فیس اړوند معلومات تازه کړئ
                     </p>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

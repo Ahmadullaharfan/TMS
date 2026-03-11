@@ -278,7 +278,7 @@ export function SearchableSelect({
                 {internalOptions.length > 0 && <div className="my-1 border-t" />}
                 <Button
                   type="button"
-                  className="flex w-full items-center gap-2 rounded-sm px-2 py-2 text-sm hover:bg-accent"
+                  className="flex w-full items-center gap-2 rounded-sm px-2 py-2 text-sm hover:bg-accent hover:text-black "
                   onClick={() => {
                     onCreateNew();
                     setOpen(false);
