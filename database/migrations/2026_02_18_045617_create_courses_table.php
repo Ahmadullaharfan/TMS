@@ -17,12 +17,11 @@ return new class extends Migration
         $table->string('title');
         $table->text('description')->nullable();
         
-        $table->decimal('course_fee', 10, 2)->default(0)->after('teacher_id');
-
-
         $table->foreignId('teacher_id')
               ->constrained('teachers')
               ->onDelete('cascade');
+
+        $table->decimal('course_fee', 10, 2)->default(0);
 
         $table->date('start_date')->nullable();
         $table->date('end_date')->nullable();
